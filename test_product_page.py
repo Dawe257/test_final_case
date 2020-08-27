@@ -1,6 +1,7 @@
 import pytest
 import time
 from .pages.product_page import ProductPage
+from .pages.login_page import LoginPage
 
 
 @pytest.mark.parametrize('link', [f"http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer{num}" for num in range(10)])
@@ -50,3 +51,5 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     page.open()
     page.should_be_login_link()
     page.go_to_login_page()
+    page = LoginPage(browser, browser.current_url)
+    page.should_be_login_page()
