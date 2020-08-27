@@ -12,3 +12,41 @@ def test_guest_can_add_product_to_basket(browser, link):
     page.add_to_cart_message_should_be_correct()
     page.cart_total_is_correct()
 
+
+def test_success_message_is_not_presented(browser):
+    link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/coders-at-work_207'
+    page = ProductPage(browser, link)
+    page.open()
+    page.should_not_be_success_message()
+
+
+def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
+    link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/coders-at-work_207'
+    page = ProductPage(browser, link)
+    page.open()
+    page.add_to_cart()
+    page.should_not_be_success_message()
+
+
+def test_guest_cant_see_success_message(browser):
+    link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/coders-at-work_207'
+    page = ProductPage(browser, link)
+    page.open()
+    page.should_not_be_success_message()
+
+
+def test_message_disappeared_after_adding_product_to_basket(browser):
+    link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/coders-at-work_207'
+    page = ProductPage(browser, link)
+    page.open()
+    page.add_to_cart()
+    page.should_disappeared()
+
+
+@pytest.mark.smoke
+def test_guest_can_go_to_login_page_from_product_page(browser):
+    link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/coders-at-work_207'
+    page = ProductPage(browser, link)
+    page.open()
+    page.should_be_login_link()
+    page.go_to_login_page()
