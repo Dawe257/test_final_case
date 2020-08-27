@@ -11,6 +11,7 @@ def pytest_addoption(parser):
 def browser(request):
     user_language = request.config.getoption("language")
     options = Options()
+    # options.add_argument('--headless')
     options.add_experimental_option('prefs', {'intl.accept_languages': user_language})
     print('\nStart browser for test...')
     browser = webdriver.Chrome(options=options)

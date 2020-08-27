@@ -6,6 +6,7 @@ from .pages.basket_page import BasketPage
 from .pages.locators import LoginPageLocators, ProductPageLocators
 
 
+@pytest.mark.need_review
 @pytest.mark.parametrize('link', [f"http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=offer{num}" for num in range(10)])
 def test_guest_can_add_product_to_basket(browser, link):
     page = ProductPage(browser, link)
@@ -17,14 +18,15 @@ def test_guest_can_add_product_to_basket(browser, link):
 
 
 def test_success_message_is_not_presented(browser):
-    link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/coders-at-work_207'
+    link = ProductPageLocators.PRODUCT_PAGE_URL
     page = ProductPage(browser, link)
     page.open()
     page.should_not_be_success_message()
 
 
+@pytest.mark.xfail
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
-    link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/coders-at-work_207'
+    link = ProductPageLocators.PRODUCT_PAGE_URL
     page = ProductPage(browser, link)
     page.open()
     page.add_to_cart()
@@ -32,22 +34,24 @@ def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
 
 
 def test_guest_cant_see_success_message(browser):
-    link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/coders-at-work_207'
+    link = ProductPageLocators.PRODUCT_PAGE_URL
     page = ProductPage(browser, link)
     page.open()
     page.should_not_be_success_message()
 
 
+@pytest.mark.xfail
 def test_message_disappeared_after_adding_product_to_basket(browser):
-    link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/coders-at-work_207'
+    link = ProductPageLocators.PRODUCT_PAGE_URL
     page = ProductPage(browser, link)
     page.open()
     page.add_to_cart()
     page.should_disappeared()
 
 
+@pytest.mark.need_review
 def test_guest_can_go_to_login_page_from_product_page(browser):
-    link = 'http://selenium1py.pythonanywhere.com/ru/catalogue/coders-at-work_207'
+    link = ProductPageLocators.PRODUCT_PAGE_URL
     page = ProductPage(browser, link)
     page.open()
     page.should_be_login_link()
@@ -56,8 +60,9 @@ def test_guest_can_go_to_login_page_from_product_page(browser):
     page.should_be_login_page()
 
 
+@pytest.mark.need_review
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
-    link = 'http://selenium1py.pythonanywhere.com/en-gb/catalogue/coders-at-work_207/'
+    link = ProductPageLocators.PRODUCT_PAGE_URL
     page = ProductPage(browser, link)
     page.open()
     page.should_be_basket_link()
@@ -67,7 +72,6 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
     page.should_be_message_empty_basket()
 
 
-@pytest.mark.smoke
 class TestUserAddToBasketFromProductPage:
     @pytest.fixture(scope="function", autouse=True)
     def setup(self, browser):
@@ -84,11 +88,12 @@ class TestUserAddToBasketFromProductPage:
         page.open()
         page.should_not_be_success_message()
 
+    @pytest.mark.need_review
     def test_user_can_add_product_to_basket(self, browser):
         link = ProductPageLocators.PRODUCT_PAGE_URL
         page = ProductPage(browser, link)
         page.open()
         page.add_to_cart()
-        page.solve_quiz_and_get_code()
+        # page.solve_quiz_and_get_code()
         page.add_to_cart_message_should_be_correct()
         page.cart_total_is_correct()

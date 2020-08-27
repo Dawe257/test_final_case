@@ -1,6 +1,5 @@
 import pytest
-import time
-from .pages.locators import Urls, LoginPageLocators
+from .pages.locators import Urls
 from .pages.main_page import MainPage
 from .pages.login_page import LoginPage
 from .pages.basket_page import BasketPage
